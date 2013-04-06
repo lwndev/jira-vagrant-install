@@ -53,7 +53,7 @@ class must-have {
     path    => "/usr/bin/:/bin/",
     require => Exec["accept_license"],
     logoutput => true,
-    creates => "/vagrant/atlassian-jira-5.2.10",
+    creates => "/vagrant/atlassian-jira-5.2.10-standalone",
   }
 
   exec {
@@ -70,7 +70,7 @@ class must-have {
   exec {
     "start_jira_in_background":
     environment => "JIRA_HOME=/vagrant/jira-home",
-    command => "/vagrant/atlassian-jira-5.2.10/bin/start-jira.sh &",
+    command => "/vagrant/atlassian-jira-5.2.10-standalone/bin/start-jira.sh &",
     cwd => "/vagrant",
     user => "vagrant",
     path    => "/usr/bin/:/bin/",
@@ -83,7 +83,7 @@ class must-have {
 
   append_if_no_such_line { motd:
     file => "/etc/motd",
-    line => "Run Stash with: JIRA_HOME=/vagrant/jira-home /vagrant/atlassian-jira-5.2.10/bin/start-jira.sh",
+    line => "Run JIRA with: JIRA_HOME=/vagrant/jira-home /vagrant/atlassian-jira-5.2.10-standalone/bin/start-jira.sh",
     require => Exec["start_jira_in_background"],
   }
 }
