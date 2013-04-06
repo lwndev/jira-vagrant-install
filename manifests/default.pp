@@ -10,6 +10,9 @@ class must-have {
   include apt
   apt::ppa { "ppa:webupd8team/java": }
 
+  $jira_home = "/vagrant/jira-home"
+  $jira_version = "5.2.10"
+
   exec { 'apt-get update':
     command => '/usr/bin/apt-get update',
     before => Apt::Ppa["ppa:webupd8team/java"],
@@ -47,30 +50,30 @@ class must-have {
 
   exec {
     "download_jira":
-    command => "curl -L http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-5.2.10.tar.gz | tar zx",
+    command => "curl -L http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-${jira_version}.tar.gz | tar zx",
     cwd => "/vagrant",
     user => "vagrant",
     path    => "/usr/bin/:/bin/",
     require => Exec["accept_license"],
     logoutput => true,
-    creates => "/vagrant/atlassian-jira-5.2.10-standalone",
+    creates => "/vagrant/atlassian-jira-${jira_version}-standalone",
   }
 
   exec {
     "create_jira_home":
-    command => "mkdir -p /vagrant/jira-home",
+    command => "mkdir -p ${jira_home}",
     cwd => "/vagrant",
     user => "vagrant",
     path    => "/usr/bin/:/bin/",
     require => Exec["download_jira"],
     logoutput => true,
-    creates => "/vagrant/jira-home",
+    creates => "${jira_home}",
   }
 
   exec {
     "start_jira_in_background":
-    environment => "JIRA_HOME=/vagrant/jira-home",
-    command => "/vagrant/atlassian-jira-5.2.10-standalone/bin/start-jira.sh &",
+    environment => "JIRA_HOME=${jira_home}",
+    command => "/vagrant/atlassian-jira-${jira_version}-standalone/bin/start-jira.sh &",
     cwd => "/vagrant",
     user => "vagrant",
     path    => "/usr/bin/:/bin/",
@@ -83,7 +86,7 @@ class must-have {
 
   append_if_no_such_line { motd:
     file => "/etc/motd",
-    line => "Run JIRA with: JIRA_HOME=/vagrant/jira-home /vagrant/atlassian-jira-5.2.10-standalone/bin/start-jira.sh",
+    line => "Run JIRA with: JIRA_HOME=${jira_home} /vagrant/atlassian-jira-${jira_version}-standalone/bin/start-jira.sh",
     require => Exec["start_jira_in_background"],
   }
 }
