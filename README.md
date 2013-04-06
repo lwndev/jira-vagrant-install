@@ -15,7 +15,7 @@ A project that uses Vagrant and Puppet to create and boot a VirtualBox VM and th
 
 # Usage
 
-  $ git clone https://github.com/lwndev/jira-vagrant-install.git && cd jira-vagrant-install
+	$ git clone https://github.com/lwndev/jira-vagrant-install.git && cd jira-vagrant-install
 	$ vagrant up
 
 Once JIRA is up and running you can access it at http://localhost:8080 or http://192.168.33.11
