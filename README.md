@@ -1,7 +1,7 @@
 jira-vagrant-install
 ===================
 
-A project that uses Vagrant and Puppet to create and boot a VirtualBox VM and then download and install a copy of JIRA 5.2.10.  
+A project that uses Vagrant and Puppet to create and boot a VirtualBox VM and then download and install a copy of JIRA 6.0.  
 
 ## Notes
 
