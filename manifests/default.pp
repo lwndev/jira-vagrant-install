@@ -11,7 +11,7 @@ class must-have {
   apt::ppa { "ppa:webupd8team/java": }
 
   $jira_home = "/vagrant/jira-home"
-  $jira_version = "5.2.10"
+  $jira_version = "6.0"
 
   exec { 'apt-get update':
     command => '/usr/bin/apt-get update',
