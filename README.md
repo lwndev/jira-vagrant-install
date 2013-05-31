@@ -18,6 +18,6 @@ A project that uses Vagrant and Puppet to create and boot a VirtualBox VM and th
 	$ git clone https://github.com/lwndev/jira-vagrant-install.git && cd jira-vagrant-install
 	$ vagrant up
 
-Once JIRA is up and running you can access it at http://localhost:8080 or http://192.168.33.11:8080
+Once JIRA is up and running you can access it at http://localhost:8080 or http://192.168.33.10:8080
 
 During the JIRA setup process, you can change the base URL to omit the port number.
