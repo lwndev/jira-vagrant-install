@@ -8,6 +8,8 @@ define append_if_no_such_line($file, $line, $refreshonly = 'false') {
 
 class must-have {
   include apt
+  include postgresql::server
+
   apt::ppa { "ppa:webupd8team/java": }
 
   $jira_home = "/vagrant/jira-home"
@@ -20,16 +22,21 @@ class must-have {
 
   exec { 'apt-get update 2':
     command => '/usr/bin/apt-get update',
-    require => [ Apt::Ppa["ppa:webupd8team/java"], Package["git-core"] ],
+    require => Apt::Ppa["ppa:webupd8team/java"],
   }
 
   package { ["vim",
              "curl",
-             "git-core",
              "bash"]:
     ensure => present,
     require => Exec["apt-get update"],
     before => Apt::Ppa["ppa:webupd8team/java"],
+  }
+
+  postgresql::db { 'jira':
+    user     => 'jira',
+    password => 'jira',
+    require  => Exec['create_jira_home'],
   }
 
   package { ["oracle-java7-installer"]:
