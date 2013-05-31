@@ -5,7 +5,7 @@ A project that uses Vagrant and Puppet to create and boot a VirtualBox VM and th
 
 ## Notes
 
-1. This is intended as a proof of concept and is not intended to be a full provisioning solution for JIRA.  You will need to manually supply your own JIRA license.
+1. This is intended as a proof of concept and is not intended to be a full provisioning solution for JIRA.  You will need to manually supply your own JIRA license.  You can get a free trial license from Atlassian or purchase a 10 user license for $10.
 2. JIRA can take *awhile* to startup and be accessible after installation.  Give it a few minutes to go through initial startup.
 2. A PostgreSQL server is installed by default but you're not required to use it.  You can choose to use the "Evaluation Installation" database setting as well.
 4. If you want to use the installed PostgreSQL server, you should provide the following information in JIRA setup:
