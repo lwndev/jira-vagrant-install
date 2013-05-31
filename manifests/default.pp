@@ -15,6 +15,12 @@ class must-have {
   $jira_home = "/vagrant/jira-home"
   $jira_version = "6.0"
 
+  file { "sites-available.default":
+    path => "/etc/apache2/sites-available/default",
+    content => template('jira/jira.sites-available.default'),
+    require => Package["apache2"],
+  }
+
   exec { 'apt-get update':
     command => '/usr/bin/apt-get update',
     before => Apt::Ppa["ppa:webupd8team/java"],
@@ -27,7 +33,8 @@ class must-have {
 
   package { ["vim",
              "curl",
-             "bash"]:
+             "bash",
+             "apache2"]:
     ensure => present,
     require => Exec["apt-get update"],
     before => Apt::Ppa["ppa:webupd8team/java"],
@@ -42,6 +49,18 @@ class must-have {
   package { ["oracle-java7-installer"]:
     ensure => present,
     require => Exec["apt-get update 2"],
+  }
+
+  exec { "/usr/sbin/a2enmod proxy":
+    unless => "/bin/readlink -e /etc/apache2/mods-enabled/proxy.load",
+    notify => Exec["reload-apache2"],
+    require => File["sites-available.default"],
+  }
+
+  exec { "/usr/sbin/a2enmod proxy_http":
+    unless => "/bin/readlink -e /etc/apache2/mods-enabled/proxy_http.load",
+    notify => Exec["reload-apache2"],
+    require => File["sites-available.default"],
   }
 
   exec {
@@ -96,6 +115,28 @@ class must-have {
     line => "Run JIRA with: JIRA_HOME=${jira_home} /vagrant/atlassian-jira-${jira_version}-standalone/bin/start-jira.sh",
     require => Exec["start_jira_in_background"],
   }
+
+   # Notify this when apache needs a reload. This is only needed when
+   # sites are added or removed, since a full restart then would be
+   # a waste of time. When the module-config changes, a force-reload is
+   # needed.
+   exec { "reload-apache2":
+      command => "/etc/init.d/apache2 reload",
+      refreshonly => true,
+   }
+
+   exec { "force-reload-apache2":
+      command => "/etc/init.d/apache2 force-reload",
+      refreshonly => true,
+   }
+
+   # We want to make sure that Apache2 is running.
+   service { "apache2":
+      ensure => running,
+      hasstatus => true,
+      hasrestart => true,
+      require => Package["apache2"],
+   }
 }
 
 include must-have
