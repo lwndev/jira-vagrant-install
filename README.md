@@ -14,6 +14,7 @@ A project that uses Vagrant and Puppet to create and boot a VirtualBox VM and th
 	3. Database Name: jira
 	4. Username: jira
 	5. Password: jira
+6. An Apache revers proxy is used to map port 8080 to 80.  This occassionally will fail the first time you access JIRA after getting the VM up and running.  No fear, just reload the page.
 5. 2. Credit where credit is due: This project is very closely based off of Nicola Paolucci's Stash provisioning example https://bitbucket.org/durdn/stash-vagrant-install.git. Check out https://blogs.atlassian.com/2013/03/instant-java-provisioning-with-vagrant-and-puppet-stash-one-click-install/ for more details 
 	
 
@@ -27,6 +28,4 @@ A project that uses Vagrant and Puppet to create and boot a VirtualBox VM and th
 	$ git clone https://github.com/lwndev/jira-vagrant-install.git && cd jira-vagrant-install
 	$ vagrant up
 
-Once JIRA is up and running you can access it at http://localhost:8080 or http://192.168.33.10:8080
-
-During the JIRA setup process, you can change the base URL to omit the port number.
+Once JIRA is up and running you can access it at http://192.168.33.10
