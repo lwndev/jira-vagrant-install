@@ -5,15 +5,23 @@ A project that uses Vagrant and Puppet to create and boot a VirtualBox VM and th
 
 ## Notes
 
-1. This is intended as a proof of concept and is not intended to be a full provisioning solution for JIRA.  You will need to manually supply your own JIRA license and use the "Evaluation Installation" option as the Puppet manifest does not install or configure a database.
+1. This is intended as a proof of concept and is not intended to be a full provisioning solution for JIRA.  You will need to manually supply your own JIRA license.
 2. Credit where credit is due: This project is very closely based off of Nicola Paolucci's Stash provisioning example https://bitbucket.org/durdn/stash-vagrant-install.git. Check out https://blogs.atlassian.com/2013/03/instant-java-provisioning-with-vagrant-and-puppet-stash-one-click-install/ for more details
+3. JIRA can take *awhile* to startup and be accessible after installation.  Give it a few minutes to go through initial startup.
+4. A PostgreSQL server is installed by default but you're not required to use it.  You can choose to use the "Evaluation Installation" database setting as well.
+5. If you want to use the installed PostgreSQL server, you should provide the following information in JIRA setup:
+	1. Server Name: localhost
+	2. Port Number: (use prefilled value)
+	3. Database Name: jira
+	4. Username: jira
+	5. Password: jira
 
-# Dependencies
+## Dependencies
 
 1. [Vagrant](http://downloads.vagrantup.com/)
 2. [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
-# Usage
+## Usage
 
 	$ git clone https://github.com/lwndev/jira-vagrant-install.git && cd jira-vagrant-install
 	$ vagrant up
