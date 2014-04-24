@@ -15,6 +15,14 @@ class must-have {
   $jira_home = "/vagrant/jira-home"
   $jira_version = "6.0"
 
+  # It's OK to install unsigned packages
+  file { "/etc/apt/apt.conf.d/99auth":
+    owner => root,
+    group => root,
+    content => "APT::Get::AllowUnauthenticated yes;",
+    mode => 644;
+  }
+
   file { "sites-available.default":
     path => "/etc/apache2/sites-available/default",
     content => template('jira/jira.sites-available.default'),
